@@ -1,3 +1,5 @@
+import {keys} from "./confidentials.js";
+
 const search = document.querySelector(".search-icon");
 const close = document.querySelector(".close-icon");
 const inputField = document.querySelector(".inputBox__inputfield");
@@ -5,14 +7,13 @@ const citiesContainer = document.querySelector(".searchbar__cities");
 let cityBtns ;
 let cityWrappers;
 const weatherContainer = document.querySelector(".weatherContainer__grid")
-startBtn = document.querySelector(".startBtn")
+const startBtn = document.querySelector(".startBtn")
 
 
 search.addEventListener("click", () => {
   search.classList.add("search-icon--openSB");
   close.classList.add("close-icon--openSB");
   inputField.classList.add("inputBox__inputfield--open");
-  console.log(citiesContainer.hasChildNodes());
   if (!citiesContainer.hasChildNodes()) {
     citiesContainer.style.border = "none";
   }
@@ -71,7 +72,7 @@ citiesContainer.addEventListener("click", (cc) =>{
 async function getCityImage(userCity) {
   console.log("Image function started");
   let auth_key = btoa(
-    "71600a842e103cf67a1b5ee883341898:416ae8ed2f2ea8f3aaa5fe1bb7390f4b"
+    `${keys.roadgoat.key}:${keys.roadgoat.secretKey}`
   );
   const endpoint = new URL(
     `https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${userCity}`
@@ -101,7 +102,7 @@ async function getWeatherData(city) {
   console.log("here is the data");
   console.log(img,long,lat);
   console.log("WeatherData function started");
-  const endpoint = new URL(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=1a8eb15e7fc04b1592e032e80b551f8b`)
+  const endpoint = new URL(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${keys.openweatherMap.key}`)
   const response = await fetch(endpoint)
   //console.log(response);
   const data = await response.json()
@@ -145,7 +146,3 @@ cityBtns.forEach((cb) =>{
   createHtml(search)
 })
 })
-
-
-
-console.log(weatherContainer.childElementCount);
